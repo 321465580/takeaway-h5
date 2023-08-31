@@ -5,6 +5,7 @@ import SearchView from '../../search/SearchView.vue'
 import { useAsync } from '../../../hooks/useAsync';
 import { fetchHomePageData } from '../../../api/home';
 import { IHomeInfo } from '../../../types';
+import OpLoadinfView from '../../../components/OpLoadinfView.vue';
 
 // 搜索推荐, 传给TheTop组件
 const recomments = [
@@ -31,8 +32,13 @@ const { data, pending } = useAsync(fetchHomePageData, {} as IHomeInfo)
         </Transition>
 
         <TheTop :recomments="recomments" @searchClick="toggleSearchView" />
-        {{ data }}
-        {{ pending }}
+        <OpLoadinfView :loading="pending" type="loading">
+            <template #template>
+                load
+            </template>
+            <div>{{ data }}</div>
+        </OpLoadinfView>
+
     </div>
 </template>
 
