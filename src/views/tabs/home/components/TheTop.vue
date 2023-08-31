@@ -12,6 +12,12 @@ interface IProps {
     */
 defineProps<IProps>();
 
+interface IEmits {
+  (e: 'searchClick') : void
+}
+
+const emits = defineEmits<IEmits>()
+
 const inputVal = ref('阿斯顿')
 const onSearch = (value?: string | number) => {
     console.log('search', value);
@@ -57,10 +63,11 @@ const onClear = () => {
       @search="onSearch"
       @cancel="onCancel"
       @clear="onClear"
+      @input-click="emits('searchClick')"
     >
-      <!-- <template #right-icon>
-        <div>搜索</div>
-      </template> -->
+      <template #right-icon>
+        <div @click="emits('searchClick')">搜索</div>
+      </template>
     </OpSearch>
 
     <div class="search-recommend">
