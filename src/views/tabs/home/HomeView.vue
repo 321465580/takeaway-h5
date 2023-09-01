@@ -1,23 +1,13 @@
 <script setup lang="ts">
 import TheTop from './components/TheTop.vue';
 import { useToggle } from '../../../hooks/useToggle'
+import ScrollBar from './components/ScrollBar.vue';
 import SearchView from '../../search/SearchView.vue'
 import { useAsync } from '../../../hooks/useAsync';
 import { fetchHomePageData } from '../../../api/home';
 import { IHomeInfo } from '../../../types';
 import OpLoadinfView from '../../../components/OpLoadinfView.vue';
-
-// 搜索推荐, 传给TheTop组件
-const recomments = [
-    {
-        value: 1,
-        label: '牛腩'
-    },
-    {
-        value: 2,
-        label: '坤坤'
-    }
-]
+import TheTransformer from './components/TheTransformer.vue';
 
 const [isSearchView, toggleSearchView] = useToggle(false)
 // 拿到请求页面的数据和状态
@@ -31,18 +21,35 @@ const { data, pending } = useAsync(fetchHomePageData, {} as IHomeInfo)
             <SearchView v-if="isSearchView" @cancel="toggleSearchView"></SearchView>
         </Transition>
 
-        <TheTop :recomments="recomments" @searchClick="toggleSearchView" />
+        <TheTop :recomments="data.searchRecomments" @searchClick="toggleSearchView" />
         <OpLoadinfView :loading="pending" type="loading">
             <template #template>
                 load
             </template>
-            <div>{{ data }}</div>
+            <div class="home-page__banner">
+                <img v-for="v in data.banner" :key="v.imgUrl" :src="v.imgUrl" alt="">
+            </div>
+            <TheTransformer :data="data.transformer"></TheTransformer>
+            <!-- 滚动组件 -->
+            <ScrollBar :data="data.scrollBarInfoList"/>
         </OpLoadinfView>
 
     </div>
 </template>
 
 <style lang="scss" scoped>
+.home-page {
+    // 使用背景色的变量
+    background: var(--op-gray-bg-color);
+
+    &__banner {
+        img {
+            width: 100%;
+            padding-top: 10px ;
+            background-color: white;
+        }
+    }
+}
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.5s ease;

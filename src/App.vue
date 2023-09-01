@@ -20,5 +20,8 @@ import { RouterView } from 'vue-router'
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   font-size: 14px;
+
+  /* 全局定义背景色的变量 */
+  --op-gray-bg-color: rgb(244,244,244)
 }
 </style>
