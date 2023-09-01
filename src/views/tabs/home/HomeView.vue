@@ -5,13 +5,21 @@ import ScrollBar from './components/ScrollBar.vue';
 import SearchView from '../../search/SearchView.vue'
 import { useAsync } from '../../../hooks/useAsync';
 import { fetchHomePageData } from '../../../api/home';
-import { IHomeInfo } from '../../../types';
+import { ICountdown } from '../../../types';
 import OpLoadinfView from '../../../components/OpLoadinfView.vue';
 import TheTransformer from './components/TheTransformer.vue';
+import countDown from './components/countDown.vue';
 
 const [isSearchView, toggleSearchView] = useToggle(false)
 // 拿到请求页面的数据和状态
-const { data, pending } = useAsync(fetchHomePageData, {} as IHomeInfo)
+const { data, pending } = useAsync(fetchHomePageData, {
+    banner: [],
+    searchRecomments: [],
+    transformer: [],
+    scrollBarInfoList: [],
+    countdown: {} as ICountdown,
+    activities: []
+})
 </script>
 
 <template>
@@ -29,9 +37,15 @@ const { data, pending } = useAsync(fetchHomePageData, {} as IHomeInfo)
             <div class="home-page__banner">
                 <img v-for="v in data.banner" :key="v.imgUrl" :src="v.imgUrl" alt="">
             </div>
+            <!-- 多个小图标组件 -->
             <TheTransformer :data="data.transformer"></TheTransformer>
             <!-- 滚动组件 -->
             <ScrollBar :data="data.scrollBarInfoList"/>
+            <!-- 限时抢购组件 -->
+            <div class="home-page__activity">
+                <countDown :data="data.countdown"></countDown>
+            </div>
+            
         </OpLoadinfView>
 
     </div>
@@ -49,11 +63,16 @@ const { data, pending } = useAsync(fetchHomePageData, {} as IHomeInfo)
             background-color: white;
         }
     }
+    &__activity {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         margin: 10px;
+    }
 }
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.5s ease;
-    ;
 }
 
 .fade-enter-from,

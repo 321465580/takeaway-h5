@@ -6,6 +6,8 @@ import router from './router'
 // 引入vant组件的样式
 import 'vant/lib/index.css';
 
+import './assets/common.scss'
+
 // import { Tabbar, TabbarItem } from 'vant';
 
 const app = createApp(App)
