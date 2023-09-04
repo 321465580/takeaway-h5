@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/vue-router": "^2.0.0",
+    "@vitejs/plugin-vue-jsx": "^3.0.2",
     "axios": "^1.4.0",
     "normalize.css": "^8.0.1",
     "vant": "^4.6.4",

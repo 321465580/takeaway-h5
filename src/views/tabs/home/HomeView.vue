@@ -9,6 +9,8 @@ import { ICountdown } from '../../../types';
 import OpLoadinfView from '../../../components/OpLoadinfView.vue';
 import TheTransformer from './components/TheTransformer.vue';
 import countDown from './components/countDown.vue';
+import OpSwipe from '../../../components/swipe/OpSwipe'
+import OpSwipeItem from '../../../components/swipe/OpSwipe'
 
 const [isSearchView, toggleSearchView] = useToggle(false)
 // 拿到请求页面的数据和状态
@@ -44,6 +46,13 @@ const { data, pending } = useAsync(fetchHomePageData, {
             <!-- 限时抢购组件 -->
             <div class="home-page__activity">
                 <countDown :data="data.countdown"></countDown>
+                <!-- 轮播图 -->
+                <OpSwipe class="home-page__activity__swipe" :autoplay="3000" :loop="true">
+                    <OpSwipeItem v-for="v in data.activities" :key="v">
+                        <img src="../../../assets/imgs/index_page/comments.png" alt="">
+                        <!-- <img :src="v"> -->
+                    </OpSwipeItem>
+                </OpSwipe>
             </div>
             
         </OpLoadinfView>
@@ -55,6 +64,7 @@ const { data, pending } = useAsync(fetchHomePageData, {
 .home-page {
     // 使用背景色的变量
     background: var(--op-gray-bg-color);
+    padding-bottom: 70px;
 
     &__banner {
         img {
@@ -68,6 +78,15 @@ const { data, pending } = useAsync(fetchHomePageData, {
          justify-content: space-between;
          align-items: center;
          margin: 10px;
+        &__swipe {
+            border-radius: 8px;
+            width: 180px;
+            height: 170px;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
     }
 }
 .fade-enter-active,
