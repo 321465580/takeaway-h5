@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 import OpSearch from "../../../../components/OpSearch.vue";
 import type { ISearchRecomment } from "../../../../types";
 interface IProps {
@@ -13,22 +13,21 @@ interface IProps {
 defineProps<IProps>();
 
 interface IEmits {
-  (e: 'searchClick') : void
+  (e: "searchClick"): void;
 }
 
-const emits = defineEmits<IEmits>()
+const emits = defineEmits<IEmits>();
 
-const inputVal = ref('阿斯顿')
+const inputVal = ref("阿斯顿");
 const onSearch = (value?: string | number) => {
-    console.log('search', value);
-}
+  console.log("search", value);
+};
 const onCancel = () => {
-    console.log('cancel');
-    
-}
+  console.log("cancel");
+};
 const onClear = () => {
-    console.log('clear');
-}
+  console.log("clear");
+};
 </script>
 
 <template>
@@ -54,21 +53,23 @@ const onClear = () => {
       </template>
     </VanSearch> -->
 
-    <OpSearch
-      show-action
-      shape="round"
-      background="linear-gradient(to right, rgb(53, 200, 250), rgb(31, 175, 243))"
-      placeholder="世界茶饮 35减2"
-      v-model="inputVal"
-      @search="onSearch"
-      @cancel="onCancel"
-      @clear="onClear"
-      @input-click="emits('searchClick')"
-    >
-      <template #right-icon>
-        <div @click="emits('searchClick')">搜索</div>
-      </template>
-    </OpSearch>
+    <VanSticky>
+      <OpSearch
+        show-action
+        shape="round"
+        background="linear-gradient(to right, rgb(53, 200, 250), rgb(31, 175, 243))"
+        placeholder="世界茶饮 35减2"
+        v-model="inputVal"
+        @search="onSearch"
+        @cancel="onCancel"
+        @clear="onClear"
+        @input-click="emits('searchClick')"
+      >
+        <template #right-icon>
+          <div @click="emits('searchClick')">搜索</div>
+        </template>
+      </OpSearch>
+    </VanSticky>
 
     <div class="search-recommend">
       <div v-for="v in recomments" :key="v.value" class="tag">
